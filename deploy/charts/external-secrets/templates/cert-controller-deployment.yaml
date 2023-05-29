@@ -66,9 +66,17 @@ spec:
             {{- end }}
           {{- end }}
           ports:
+          {{- if or .Values.certController.prometheus.enabled .Values.certController.metrics.service.enabled }}
+            {{- if .Values.certController.prometheus.enabled }}
             - containerPort: {{ .Values.certController.prometheus.service.port }}
               protocol: TCP
               name: metrics
+            {{- else }}
+            - containerPort: {{ .Values.certController.metrics.service.port }}
+              protocol: TCP
+              name: metrics
+            {{- end }}
+          {{- end }}
           readinessProbe:
             httpGet:
               port: 8081

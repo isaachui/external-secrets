@@ -84,9 +84,11 @@ spec:
           {{- end }}
           {{- end }}
           ports:
+          {{ if .Values.prometheus.enabled }}
             - containerPort: {{ .Values.prometheus.service.port }}
               protocol: TCP
               name: metrics
+          {{- end }}
           {{- with .Values.extraEnv }}
           env:
             {{- toYaml . | nindent 12 }}
